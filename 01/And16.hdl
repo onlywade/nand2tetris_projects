@@ -13,5 +13,37 @@ CHIP And16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Nand(a=a[0], b=b[0], out=nandab0);
+    Nand(a=a[1], b=b[1], out=nandab1);
+    Nand(a=a[2], b=b[2], out=nandab2);
+    Nand(a=a[3], b=b[3], out=nandab3);
+    Nand(a=a[4], b=b[4], out=nandab4);
+    Nand(a=a[5], b=b[5], out=nandab5);
+    Nand(a=a[6], b=b[6], out=nandab6);
+    Nand(a=a[7], b=b[7], out=nandab7);
+    Nand(a=a[8], b=b[8], out=nandab8);
+    Nand(a=a[9], b=b[9], out=nandab9);
+    Nand(a=a[10], b=b[10], out=nandab10);
+    Nand(a=a[11], b=b[11], out=nandab11);
+    Nand(a=a[12], b=b[12], out=nandab12);
+    Nand(a=a[13], b=b[13], out=nandab13);
+    Nand(a=a[14], b=b[14], out=nandab14);
+    Nand(a=a[15], b=b[15], out=nandab15);
+
+    Not(in=nandab0, out=out[0]);
+    Not(in=nandab1, out=out[1]);
+    Not(in=nandab2, out=out[2]);
+    Not(in=nandab3, out=out[3]);
+    Not(in=nandab4, out=out[4]);
+    Not(in=nandab5, out=out[5]);
+    Not(in=nandab6, out=out[6]);
+    Not(in=nandab7, out=out[7]);
+    Not(in=nandab8, out=out[8]);
+    Not(in=nandab9, out=out[9]);
+    Not(in=nandab10, out=out[10]);
+    Not(in=nandab11, out=out[11]);
+    Not(in=nandab12, out=out[12]);
+    Not(in=nandab13, out=out[13]);
+    Not(in=nandab14, out=out[14]);
+    Not(in=nandab15, out=out[15]);
 }

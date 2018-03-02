@@ -16,5 +16,29 @@ CHIP DMux4Way {
     OUT a, b, c, d;
 
     PARTS:
-    // Put your code here:
+
+    DMux(in=in, sel=sel[1], a=highlow, b=highhigh);
+
+    DMux(in=highlow, sel=sel[0], a=a, b=b);
+    DMux(in=highhigh, sel=sel[0], a=c, b=d);
+
+
 }
+    /**
+    Not(in=sel[0], out=nots0);
+    Not(in=sel[1], out=nots1);
+    And(a=nots0, b=nots1, out=neitherbit);
+    And(a=neitherbit, b=in, out=a);
+
+    Xor(a=sel[0], b=sel[1], out=singlebit);
+
+    And(a=singlebit, b=sel[0], out=firstbit);
+    And(a=firstbit, b=in, out=b);
+
+    And(a=singlebit, b=sel[1], out=secondbit);
+    And(a=secondbit, b=in, out=c);
+
+    And(a=sel[0], b=sel[1], out=bothbits);
+    And(a=bothbits, b=in, out=d);
+    */
+
