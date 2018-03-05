@@ -16,5 +16,12 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+
+    ALU(x=dffout, y=false, zx=false, nx=true, zy=true, ny=true, f=true, no=true, out=incremented);
+    ALU(x=false, y=false, zx=true, nx=false, zy=true, ny=false, f=true, no=false, out=zero);
+
+    Mux16(a=dffout, b=incremented, sel=inc, out=incout);
+    Mux16(a=incout, b=in, sel=load, out=loadout);
+    Mux16(a=loadout, b=zero, sel=reset, out=zeroout);
+    DFF16(in=zeroout, out=dffout, out=out);
 }
