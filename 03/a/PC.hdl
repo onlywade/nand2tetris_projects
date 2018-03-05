@@ -17,11 +17,11 @@ CHIP PC {
 
     PARTS:
 
-    ALU(x=dffout, y=false, zx=false, nx=true, zy=true, ny=true, f=true, no=true, out=incremented);
+    ALU(x=theregister, y=false, zx=false, nx=true, zy=true, ny=true, f=true, no=true, out=addone);
     ALU(x=false, y=false, zx=true, nx=false, zy=true, ny=false, f=true, no=false, out=zero);
 
-    Mux16(a=dffout, b=incremented, sel=inc, out=incout);
-    Mux16(a=incout, b=in, sel=load, out=loadout);
-    Mux16(a=loadout, b=zero, sel=reset, out=zeroout);
-    DFF16(in=zeroout, out=dffout, out=out);
+    Mux16(a=theregister, b=addone, sel=inc, out=incrementor);
+    Mux16(a=incrementor, b=in, sel=load, out=loader);
+    Mux16(a=loader, b=zero, sel=reset, out=resetter);
+    Register(in=resetter, load=true, out=theregister, out=out);
 }
