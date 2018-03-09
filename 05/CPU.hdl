@@ -39,5 +39,48 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+
+// decide whether y == A or M
+Mux16(a=aRegOut, b=inM, sel=instruction[12], out=aRegOrInM);
+
+// compute x and y
+ALU(x=DRegister, y=aRegOrInM, zx=instruction[11],
+                         nx=instruction[10],
+                         zy=instruction[9],
+                         ny=instruction[8],
+                         f=instruction[7],
+                         no=instruction[6],
+                         out=computed, out=outM,
+                         zr=computedzero,
+                         ng=computednegative);
+
+// decide whether A register should store computed output, or original input
+// (i.e. is it an @ instruction?)
+Not(in=instruction[15], out=ainstruction);
+Mux16(a=computed, b=instruction, sel=ainstruction, out=toARegister);
+
+// load if @a instruction or a dest set
+Or(a=ainstruction, b=instruction[5], out=loadTheARegisterPlz);
+ARegister(in=toARegister, load=loadTheARegisterPlz, out=aRegOut, out[0..14]=addressM);
+
+// d reg
+And(a=instruction[15], b=instruction[4], out=loadTheDReg);
+DRegister(in=computed, load=loadTheDReg, out=DRegister);
+
+// writing M out, or not?
+And(a=instruction[15], b=instruction[3], out=writeM);
+
+// jump up jump up and jump around
+And(a=computednegative, b=instruction[2], out=jumpcauseneg);
+And(a=computedzero, b=instruction[1], out=jumpcausezero);
+Or(a=computednegative, b=computedzero, out=computednegativeorzero);
+Not(in=computednegativeorzero, out=computedpositive);
+And(a=computedpositive, b=instruction[0], out=jumpcausepositive);
+
+Or(a=jumpcauseneg, b=jumpcausepositive, out=jump1);
+Or(a=jump1, b=jumpcausezero, out=wouldjump);
+And(a=instruction[15], b=wouldjump, out=dojumpplz);
+
+PC(in=aRegOut, load=dojumpplz, inc=true, reset=reset, out[0..14]=pc);
+
 }
